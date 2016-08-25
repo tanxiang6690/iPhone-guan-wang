@@ -1,0 +1,152 @@
+h1,h2,h3,h4,h5,h6,dl,dt,dd,p,ul,li,i{
+  padding:0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  position: relative;
+  font-size:12px;
+}
+img{
+  border: none;
+}
+a{
+  text-decoration: none;
+}
+body{
+  height: auto;
+  font-family: Arial,"微软雅黑";
+  font-weight: 100;
+}
+//左右居中
+@mixin  zuoyou{
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+//上下居中
+@mixin shangxia{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+//上下左右居中
+@mixin center{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+@mixin  gaizi{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+//规定圆:在引用时：@include yuan(50px)
+@mixin yuan ($size){
+  height: $size;
+  width: $size;
+  border-radius: 50%;
+}
+//规定长方形的宏：在引用时：@include fang(20px,10px)
+@mixin changfang($w,$h){
+  width: $w;
+  height: $h;
+}
+//规定正方形
+@mixin zhengfang($size){
+  width:$size;
+  height:$size;
+}
+//要清除浮动的时候在加这个类
+%clear{
+  content: "";
+  display: block;
+  clear: both;
+  line-height:0;
+  height: 0;
+}
+.clearfix::after{
+ @extend %clear;
+}
+//规定屏幕的大小
+$number:12;//规定是12栅格的百分比
+$large-size:3000px;
+$mediu-size:1068px;
+$small-size:767px;
+@mixin onl{
+  @media screen and (max-width: $large-size) {
+    @content;
+  }
+}
+@mixin onm{
+  @media screen and (max-width: $mediu-size) {
+    @content;
+  }
+}
+@mixin ons{
+  @media screen and (max-width: $small-size) {
+    @content;
+  }
+}
+//做栅格系统
+.row{//处理浮动，要把浮动清除掉了；
+  &::after{
+    @extend %clear;
+  }
+}
+.col{
+  float: left;
+}
+//规定col在小屏时的width的百分比大小，
+@include ons{
+  @for $i from 1 through $number{
+    .col.s#{$i}{
+      width:percentage($i/$number);
+    }
+  }
+}
+//规定col在中屏时的width的百分比大小，
+@include onm{
+  @for $i from 1 through $number{
+    .col.m#{$i}{
+      width:percentage($i/$number);
+    }
+  }
+}
+//规定col在大屏时的width的百分比大小，
+@include onl{
+  @for $i from 1 through $number{
+    .col.l#{$i}{
+      width:percentage($i/$number);
+    }
+  }
+}
+
+.icon-journey2shape::before { content: "\e7e8"; }
+.icon-left::before { content: "\e7f4"; }
+.icon-attachment::before { content: "\e776"; }
+.icon-back::before { content: "\e833"; }
+.icon-camera::before { content: "\e832"; }
+.icon-share-copy::before { content: "\e82d"; }
+.icon-more2::before { content: "\e7c2"; }
+.icon-orderlist::before { content: "\e79d"; }
+
+@font-face {
+  font-family: "bold";
+  //src:url("../fonts/myir")
+}
+//引入字体
+@font-face {
+  font-family: "wodeziti";
+  src:url("../fonts/iconfont.woff") format("woff")
+}
+.icon{
+  font-family: "wodeziti";
+}
+

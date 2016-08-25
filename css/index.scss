@@ -1,0 +1,763 @@
+@import "public";
+//大屏时的导航
+.header{
+  z-index: 11;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 44px;
+  background: rgba(0,0,0,0.8);
+  .header-inner{
+    height:44px;
+    margin:0 auto;
+    max-width:1024px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    .search-box{
+      z-index: 15;
+      @include zuoyou;
+      top: 0;
+      width: 70%;
+      height: 100%;
+      background: url("../images/search_large.svg") no-repeat;
+      padding-left: 30px;
+      padding-right:30px;
+      box-sizing: border-box;
+      transition: all 2s ease;
+      transform: translateX(10000px);
+      &.searching{
+        transform: translateX(0);
+      }
+      .search-button{
+        height:100%;
+        width: 100%;
+        position: relative;
+        input{
+          display: inline-block;
+          height: 100%;
+          width: 100%;
+          border: none;
+          outline: none;
+          font-size: 15px;
+          text-indent: 1em;
+          background: transparent;
+        }
+        .cancel{
+          height: 100%;
+          width: 4%;
+          position: absolute;
+          right: -4%;
+          top: 0;
+          bottom: 0;
+          line-height:44px;
+          text-align: center;
+          font-size: 30px;
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  //加背景图片的方式
+  $nav-list:(
+     "logo":20px,
+     "mac":31px,
+     "ipad":30px,
+     "iPhone":48px,
+     "watch":44px,
+     "tv":44px,
+     "music":40px,
+     "support":57px,
+     "search":20px,
+     "bag":18px
+  );
+  //遍历上面的列表
+  @each $key in map_keys($nav-list){
+    li.#{$key} a{
+      background: url("../images/#{$key}_large.svg") center center no-repeat;
+    }
+  }
+  .nav{
+    z-index: 12;
+    height:44px;
+    text-align: justify;//公平/公正，均匀居中，需要有触发条件,一行元素超出之后才会触发
+    //.nav-phone{
+    //}
+    li{
+      display: inline-block;
+      height: 44px;
+      line-height:44px;
+      padding: 0 15px;
+      transition: all 0.9s ease;
+      transform: scale(1,1);
+      opacity: 1;
+      &.searching{
+        transform: scale(0.1,0.1);
+        opacity: 0;
+      }
+      a{
+        @include gaizi;
+        display: block;
+        width: auto;
+        height: 44px;
+        padding: 0 30px;
+        color: #f2f2f2;
+        box-sizing: border-box;
+        span{
+          font-size: 0;
+          line-height:0;
+          height:0;
+          width: 0;
+        }
+      }
+      &:hover{
+        opacity:0.6;
+      }
+    }
+    &::after{
+      content: '';
+      display: inline-block;
+      width:100%;
+      height:0;
+      line-height:0;
+      overflow: hidden;
+    }
+  }
+  //当屏幕缩小到移动端的导航栏
+  .nav-phone{
+    display: none;
+  }
+}
+//小屏时的导航
+@include  ons{
+  .header{
+    z-index: 150;
+    height:48px;
+    background: #000;
+    .header-inner{
+      height:48px;
+      padding: 0;
+      position: relative;
+    }
+    .nav{
+      display: none;
+    }
+    .nav-phone{
+      display: block;
+      height: 48px;
+      width: 100%;
+      overflow: hidden;
+      li{
+        display: inline-block;
+        height: 48px;
+        line-height:48px;
+        padding: 0 10px;
+      }
+      .menu{
+        float: left;
+        width: 20px;
+        position: relative;
+        span{
+          display: block;
+          height: 1px;
+          width: 18px;
+          background: #fff;
+          margin: 5px 0;
+          transition: all 0.3s ease;
+        }
+        .hang{
+          position: absolute;
+          top: 15px;
+          transition: all 0.2s ease;
+          transform: rotateZ(0deg);
+          transform-origin: center center;
+
+        }
+        .shu{
+          position: absolute;
+          bottom: 15px;
+          transition: all 0.2s ease;
+          transform: rotateZ(0deg);
+          transform-origin: center center;
+
+        }
+      }
+      .hang.dianJi{
+        transform: rotateZ(45deg);
+        position: absolute;
+        top:0;
+        bottom: 0;
+        left:0;
+        right:0;
+        margin: auto;
+        //transform-origin: center center;
+      }
+      .shu.dianJi{
+        transform: rotateZ(-45deg);
+        transform-origin: center center;
+        position: absolute;
+        top:0;
+        bottom: 0;
+        left:0;
+        right:0;
+        margin: auto;
+      }
+      .menu:hover span{
+        opacity: 0.6;
+      }
+      .logo{
+        background: url("../images/logo.svg") no-repeat center center;
+        margin: 0 36%;
+        transition: all 0.6s ease;
+      }
+      .bag{
+        background: url("../images/bag.svg") no-repeat center center;
+        float: right;
+        transition: all 0.6s ease;
+      }
+      .bag:hover ,.logo:hover{
+        opacity: 0.6;
+      }
+    }
+    .menu-box{
+      z-index: 0;
+      width: 100%;
+      height: 600px;
+      position: absolute;
+      left:0;
+      top:48px;
+      background: #000;
+      padding-left: 40px;
+      padding-right:40px;
+      box-sizing: border-box;
+      padding-top: 30px;
+      transition: all 2.5s ease;
+      transform: translateY(-8500px);
+      opacity: 0;
+    }
+    .menu-box.dianJi{
+      transform: translateY(0);
+      opacity:1;
+    }
+    .menu-box li{
+      height: 45px;
+      width: 100%;
+      //background: red;
+      border-bottom: 1px  dotted #fff;
+      a{
+        display: block;
+        height: 45px;
+        transition: all 0.4s ease;
+        &::after{
+          content: '';
+          display: inline-block;
+          width:100%;
+          height:0;
+          line-height:0;
+          overflow: hidden;
+        }
+        &:hover{
+          opacity: 0.8;
+        }
+      }
+    }
+    $menu-box-list:(
+            "mac":31px,
+            "ipad":30px,
+            "iPhone":48px,
+            "watch":44px,
+            "tv":44px,
+            "music":40px,
+            "support":57px,
+            "search":20px
+    );
+    //遍历上面的列表
+    @each $key in map_keys($menu-box-list){
+      li.#{$key} a{
+        background: url("../images/#{$key}.svg") left center no-repeat;
+      }
+    }
+  }
+}
+//banner部分
+.banner{
+  z-index: 10;
+  height:auto;
+  overflow: hidden;
+  .content{
+    height: 650px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    li.active{
+      display: block;
+      transform: translateX(0);
+    }
+    li.left{
+      display: block;
+      transform: translateX(-100%);
+    }
+    li.right{
+      transform: translateX(100%);
+      display: block;
+    }
+    li{
+      display: none;
+      position: absolute;
+      left:0;
+      top: 0;
+      width: 100%;
+      height: 650px;
+      box-sizing: border-box;
+      transition: all 0.6s ease;
+      a{
+        position: absolute;
+        left:0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        .title{
+          font-weight: normal;
+          @include zuoyou;
+          top: 100px;
+          text-align: center;
+          font-size: 50px;
+          color: #333;
+        }
+        .des{
+          @include zuoyou;
+          top: 180px;
+          text-align: center;
+          font-size: 26px;
+          color: #333;
+        }
+      }
+    }
+    .iphone6s{
+      background: url("../images/iphone_6s_medium.jpg") no-repeat center 240px;
+    }
+    .ipad{
+      background: url("../images/ipad_pro_family_medium.jpg") no-repeat center 200px;
+    }
+    .watch{
+      background: url("../images/apple_watch_trio_medium.jpg") no-repeat center 200px;
+    }
+    .macbook{
+      background: url("../images/macbook_medium.png") no-repeat center 250px;
+    }
+  }
+  .moveleft,.moveright{
+    width: 67px;
+    height: 128px;
+    @include  shangxia
+    z-index: 999;
+  }
+  .moveleft{
+    background-image: url("../images/left.png");
+    background-position: center center;
+    background-repeat:no-repeat;
+    left: 20px;
+    transition:all 0.6s ease;
+    opacity: 0;
+  }
+  .moveright{
+    background-image:  url("../images/right.png");
+    background-position: center center;
+    background-repeat:no-repeat;
+    right: 20px;
+    transition:all 0.6s ease;
+    opacity: 0;
+  }
+  .pagegation{
+    width: 112px;
+    height: 16px;
+    @include  zuoyou;
+    margin-bottom: 50px;
+    //bottom:20px;
+    text-align: justify;
+    &::after{
+      content: '';
+      display: inline-block;
+      width:100%;
+      height:0;
+      line-height:0;
+      overflow: hidden;
+    }
+    li{
+      height: 8px;
+      width: 8px;
+      border-radius: 50px;
+      float: left;
+      background: #333;
+      display: inline-block;
+      margin: 0 9px;
+    }
+    li.active{
+      box-shadow: 0 0 0 1px #187DCE;
+      border: 1px solid #197ECE;
+      background: #fff;
+      transform: translateY(-1px);
+    }
+  }
+  .list{
+    margin-top: 20px;
+    width: 100%;
+    height:200px ;
+    //background: red;
+    li{
+      width: 25%;
+      height:200px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #fff;
+      border-right: 1px solid #fff;
+      position: relative;
+      a{
+        display: block;
+        @include gaizi;
+      }
+    }
+    .tv{
+      background: url("../images/apple_tv_medium.jpg") center center no-repeat;
+      background-size: cover;
+    }
+    .ios{
+      background: url("../images/public_betas_medium.jpg") center center no-repeat;
+      background-size: cover;
+    }
+    .swift{
+      background: url("../images/swift_playground_medium.jpg") center center no-repeat;
+      background-size: cover;
+    }
+    .add{
+      background: url("../images/bts_mac_medium.jpg") center center no-repeat;
+      background-size: cover;
+    }
+    @include onm{
+      li{
+        width: 50%;
+      }
+      .tv{
+        background: url("../images/apple_tv_medium_2x.jpg") center center no-repeat;
+        background-size: cover;
+      }
+      .ios{
+        background: url("../images/public_betas_medium_2x.jpg") center center no-repeat;
+        background-size: cover;
+      }
+      .swift{
+        background: url("../images/swift_playground_medium_2x.jpg") center center no-repeat;
+        background-size: cover;
+      }
+      .add{
+        background: url("../images/bts_mac_small.jpg") center center no-repeat;
+        background-size: cover;
+      }
+    }
+    @include ons{
+      li{
+        width: 100%;
+      }
+      .tv{
+        background: url("../images/apple_tv_small_2x.jpg") center center no-repeat;
+        background-size: cover;
+      }
+      .ios{
+        background: url("../images/public_betas_small_2x.jpg") center center no-repeat;
+        background-size: cover;
+      }
+      .swift{
+        background: url("../images/swift_playground_small_2x.jpg") center center no-repeat;
+        background-size: cover;
+      }
+      .add{
+        background: url("../images/bts_mac_small.jpg") center center no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+}
+//当在中屏的时候的banner布局
+@include ons{
+  .banner .content{
+    height: 480px;
+    .iphone6s{
+      background: url("../images/iphone_6s_small_2x.jpg") no-repeat center 240px;
+    }
+    .ipad{
+      background: url("../images/ipad_pro_family_small_2x.jpg") no-repeat center 200px;
+    }
+    .watch{
+      background: url("../images/apple_watch_trio_small_2x.jpg") no-repeat center 200px;
+    }
+    .macbook{
+      background: url("../images/macbook_small_2x.png") no-repeat center 250px;
+    }
+  }
+
+}
+.footer{
+  height: auto;
+  background: #F2F2F2;
+  .footer-inner{         
+    max-width:1024px;
+    height:auto;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    dl{
+      display: block;
+      width: 20%;
+      float: left;
+      box-sizing: border-box;
+      padding:0 2px;
+      dt{
+        height:30px; ;
+        line-height:30px;
+      }
+      dd{
+        a{
+          display: block;
+          height:25px; ;
+          line-height:25px;
+          color: #666666;
+          &:hover{
+             text-decoration: underline;
+          }
+        }
+        dl{
+          display: block;
+          width: 100%;
+          float: left;
+          box-sizing: border-box;
+          padding:0 2px;
+          margin-top: 20px;
+        }
+      }
+    }
+    .contact-me{
+      float: left;
+      width: 100%;
+      height: 30px;
+      margin-bottom: 10px;
+      color: #A49999;
+      border-bottom: 1px solid #E3E3E3;
+      a{
+        color: #0088CC;
+        &:hover{
+          color: #333333;
+          text-decoration: underline;
+        }
+      }
+    }
+    .footbox{
+      height:40px;
+      width: 100%;
+      margin-bottom: 10px;
+      .footbox-1{
+        height: 40px;
+        width: auto;
+        float: left;
+        box-sizing: border-box;
+        line-height: 40px;
+        padding-right: 10px;
+        color: #A49999;
+      }
+      .footbox-2{
+        height: 40px;
+        width: auto;
+        float: left;
+        li{
+          color: #D6D6D6;
+          box-sizing: border-box;
+          padding: 0 5px;
+          float: left;
+          line-height: 40px;
+          a{
+            color: #666666;
+            font-size: 10px;
+          }
+        }
+      }
+      .footbox-3{
+        height: 40px;
+        width:100px;
+        float: right;
+        background: url("../images/16.png") no-repeat left center;
+        a{
+          @include gaizi;
+          line-height: 40px;
+          text-align: right;
+          color: #666;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    .footbox-small{
+      display: none;
+    }
+    .footbox-4{
+      display: none;
+    }
+    .show-list{
+      display: none;
+    }
+    @include ons{
+      dl{
+        display: none;
+      }
+      .contact-me{
+        float: left;
+        display: none;
+      }
+      .footbox{
+        display: none;
+      }
+      .footbox-small{
+        display: none;
+      }
+      .footbox-small-bootbox-2{
+        display: none;
+      }
+      .footer{
+        height: auto;
+      }
+      .footer-inner{
+        height: auto;
+      }
+      .show-list.active{
+        height:38px;
+        transition: all 0.8s ease;
+        .xian-shi{
+          height: 0;
+          display: none;
+        }
+      }
+      .show-list{
+        display: block;
+        height: auto;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px 0;
+        .xian-shi{
+          height: 38px;
+          display: block;
+        }
+        li{
+          height: auto;
+          width: 100%;
+          line-height: 38px;
+          opacity: 1;
+          &:nth-child(1){
+            border-bottom: 1px solid #E3E3E3;
+            p{
+              display: inline-block;
+              line-height: 38px;
+              box-sizing: border-box;
+              width: 100%;
+              color: #333;
+              cursor: pointer;
+              span{
+                display: block;
+                font-size: 14px;
+                float: right;
+              }
+              &.active{
+                color:#222 ;
+              }
+            }
+          }
+          a{
+            font-size: 8px;
+            color: #666;
+            box-sizing: border-box;
+            padding-left:20px;
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+  .nav-footer::after{
+    @extend %clear;
+  }
+  @media screen and (max-width: 855px) {
+    .footer{
+      height: 450;
+    }
+    .footbox-2{
+      display: none;
+    }
+    .footer .footer-inner .footbox .footbox-2{
+      display: none;
+    }
+    .footbox-small{
+      display: block;
+      height: 40px;
+      width: 100%;
+      position: absolute;
+      bottom: 10px;
+      padding-right:40px;
+      box-sizing: border-box;
+      .footbox-1{
+        height: 40px;
+        width: auto;
+        float: left;
+        box-sizing: border-box;
+        line-height: 40px;
+        padding-right: 10px;
+        color: #A49999;
+      }
+      .footbox-3{
+        height: 40px;
+        width:100px;
+        float: right;
+        background: url("../images/16.png") no-repeat left center;
+        a{
+          @include gaizi;
+          line-height: 40px;
+          text-align: right;
+          color: #666;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    .footbox-small-bootbox-2{
+      display: block;
+      height: 30px;
+      width: 100%;
+      position: absolute;
+      bottom: -5px;
+      box-sizing: border-box;
+      .footbox-4{
+        display: block;
+        height: 30px;
+        width: auto;
+        li{
+          color: #D6D6D6;
+          box-sizing: border-box;
+          padding: 0 5px;
+          float: left;
+          line-height: 30px;
+          a{
+            color: #666666;
+            font-size: 10px;
+          }
+        }
+        li:nth-child(1){
+          padding: 0;
+        }
+      }
+    }
+  }
+}
